@@ -31,7 +31,9 @@ function App() {
     {
       title: 'Price',
       dataIndex: 'price',
-      key: 'price'
+      key: 'price',
+      defaultSortOrder: 'asending',
+      sorter: (a, b) => a.price - b.price
     },
     {
       title: 'Description',
