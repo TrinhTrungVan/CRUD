@@ -1,11 +1,11 @@
 import Container from './components/Container'
-import ProductManager from './components/ProductManager'
+import AppRouter from './components/AppRouter'
 import './App.css'
 
 function App() {
   return (
     <Container>
-      <ProductManager />
+      <AppRouter />
     </Container>
   )
 }

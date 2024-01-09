@@ -1,8 +1,32 @@
 import { Button, Space, Table } from 'antd'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { deleteProduct, getProducts } from '@/redux/actions/productActions'
+import { useNavigate } from 'react-router-dom'
 import './style.css'
 
-const ProductTable = ({ data, loading, handleEdit, handleDelete }) => {
+const ProductTable = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { products, totalProducts, keyword } = useSelector(
+    (state) => state.products
+  )
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+
+  const handleDelete = (id) => {
+    setLoading(true)
+    dispatch(deleteProduct(id)).finally(() => {
+      setLoading(false)
+    })
+  }
+
   const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id'
+    },
     {
       title: 'Title',
       dataIndex: 'title',
@@ -12,7 +36,6 @@ const ProductTable = ({ data, loading, handleEdit, handleDelete }) => {
       title: 'Price',
       dataIndex: 'price',
       key: 'price',
-      defaultSortOrder: 'asending',
       sorter: (a, b) => a.price - b.price
     },
     {
@@ -30,7 +53,10 @@ const ProductTable = ({ data, loading, handleEdit, handleDelete }) => {
       key: 'action',
       render: (_, record) => (
         <Space size="large">
-          <Button disabled={loading} onClick={() => handleEdit(record)}>
+          <Button
+            onClick={() => navigate(`/edit/${record.id}`)}
+            disabled={loading}
+          >
             Edit
           </Button>
           <Button
@@ -45,7 +71,23 @@ const ProductTable = ({ data, loading, handleEdit, handleDelete }) => {
     }
   ]
 
-  return <Table columns={columns} dataSource={data} rowKey="id" />
+  useEffect(() => {
+    dispatch(getProducts(page))
+  }, [dispatch, page])
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={products.filter((item) => item.title.includes(keyword))}
+      rowKey="id"
+      pagination={{
+        total: totalProducts,
+        showSizeChanger: false,
+        current: page
+      }}
+      onChange={(data) => setPage(data.current)}
+    />
+  )
 }
 
 export default ProductTable
