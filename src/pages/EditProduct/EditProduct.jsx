@@ -1,4 +1,4 @@
-import ProductForm from '@/components/ProductForm'
+import ProductForm from '@/components/ProductForm/ProductForm'
 import { getProduct } from '@/redux/actions/productActions'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +17,7 @@ const EditProduct = () => {
     return (
       <>
         <h3 className="title">Edit Product</h3>
-        <h3 className="title">{productError.message}</h3>
+        <h3 className="title">{productError}</h3>
       </>
     )
   }

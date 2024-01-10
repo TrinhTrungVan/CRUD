@@ -1,5 +1,5 @@
-import ProductAction from '../../components/ProductAction'
-import ProductTable from '../../components/ProductTable'
+import ProductAction from '@/components/ProductAction/ProductAction'
+import ProductTable from '@/components/ProductTable/ProductTable'
 import './style.css'
 
 const ProductManager = () => {

@@ -6,8 +6,6 @@ import * as types from '../constants/productConstants'
 const initialState = {
   product: null,
   products: [],
-  totalProducts: 0,
-  totalPages: 0,
   productError: null,
   keyword: ''
 }
@@ -17,20 +15,15 @@ const productsReducers = (state = initialState, action) => {
 
   switch (type) {
     case types.GET_PRODUCTS_SUCCESS:
-      const { products, total, limit } = payload
       return {
         ...state,
-        products: products,
-        totalProducts: total,
-        totalPages: Math.ceil(state.totalProducts / limit),
+        products: payload,
         productError: null
       }
     case types.GET_PRODUCTS_FAIL:
       return {
         ...state,
         products: [],
-        totalProducts: 0,
-        totalPages: 0,
         productError: payload
       }
     case types.GET_PRODUCT_SUCCESS:
@@ -43,6 +36,31 @@ const productsReducers = (state = initialState, action) => {
       return {
         ...state,
         product: null,
+        productError: payload
+      }
+    case types.CREATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        product: null,
+        products: [payload, ...state.products],
+        productError: null
+      }
+    case types.CREATE_PRODUCT_FAIL:
+      return {
+        ...state,
+        productError: payload
+      }
+    case types.UPDATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        products: state.products.map((item) =>
+          item.id === payload.id ? payload : item
+        ),
+        productError: null
+      }
+    case types.UPDATE_PRODUCT_FAIL:
+      return {
+        ...state,
         productError: payload
       }
     case types.DELETE_PRODUCT_SUCCESS:
@@ -63,6 +81,11 @@ const productsReducers = (state = initialState, action) => {
       return {
         ...state,
         keyword: payload
+      }
+    case types.CLEAR_PRODUCT_FORM:
+      return {
+        ...state,
+        product: null
       }
     default:
       return state

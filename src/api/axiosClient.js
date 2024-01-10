@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosClient = axios.create({
-  baseURL: 'https://dummyjson.com/'
+  baseURL: 'https://64b7972921b9aa6eb0788b9f.mockapi.io/'
 })
 
 axiosClient.interceptors.request.use(async (config) => config)

@@ -1,14 +1,14 @@
 import axiosClient from '../axiosClient'
 
 const productServices = {
-  getProducts: (page) => {
-    return axiosClient.get(`/products?limit=10&skip=${(page - 1) * 10}`)
+  getProducts: () => {
+    return axiosClient.get('/products')
   },
   getProductDetail: (id) => {
     return axiosClient.get(`/products/${id}`)
   },
   createProduct: (data) => {
-    return axiosClient.post('/products/add', data)
+    return axiosClient.post('/products', data)
   },
   updateProduct: (id, newData) => {
     return axiosClient.put(`/products/${id}`, newData)

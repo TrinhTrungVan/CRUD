@@ -8,10 +8,7 @@ import './style.css'
 const ProductTable = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { products, totalProducts, keyword } = useSelector(
-    (state) => state.products
-  )
-  const [page, setPage] = useState(1)
+  const { products, keyword } = useSelector((state) => state.products)
   const [loading, setLoading] = useState(false)
 
   const handleDelete = (id) => {
@@ -72,20 +69,14 @@ const ProductTable = () => {
   ]
 
   useEffect(() => {
-    dispatch(getProducts(page))
-  }, [dispatch, page])
+    dispatch(getProducts())
+  }, [dispatch])
 
   return (
     <Table
       columns={columns}
       dataSource={products.filter((item) => item.title.includes(keyword))}
       rowKey="id"
-      pagination={{
-        total: totalProducts,
-        showSizeChanger: false,
-        current: page
-      }}
-      onChange={(data) => setPage(data.current)}
     />
   )
 }

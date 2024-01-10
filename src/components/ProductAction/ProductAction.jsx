@@ -1,7 +1,7 @@
 import { Button, Flex, Input } from 'antd'
 import { Search } from 'lucide-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeKeyword } from '@/redux/actions/productActions'
+import { changeKeyword, clearProductForm } from '@/redux/actions/productActions'
 import { useNavigate } from 'react-router-dom'
 import './style.css'
 
@@ -15,6 +15,7 @@ const ProductAction = () => {
   }
 
   const handleAdd = () => {
+    dispatch(clearProductForm())
     naviagate('/create')
   }
 

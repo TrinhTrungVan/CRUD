@@ -1,5 +1,5 @@
-import Container from './components/Container'
-import AppRouter from './components/AppRouter'
+import Container from './components/Container/Container'
+import AppRouter from './components/AppRouter/AppRouter'
 import './App.css'
 
 function App() {

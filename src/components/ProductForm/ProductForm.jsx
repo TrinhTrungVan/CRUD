@@ -1,11 +1,44 @@
+import { createProduct, updateProduct } from '@/redux/actions/productActions'
 import { Button, Form, Input } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const ProductForm = () => {
   const [form] = Form.useForm()
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { product, productError } = useSelector((state) => state.products)
   const [loading, setLoading] = useState(false)
+  const isEditing = !!product
 
-  const handleSubmit = () => {}
+  const handleSubmit = () => {
+    setLoading(true)
+    if (isEditing) {
+      dispatch(updateProduct(id, form.getFieldsValue()))
+    } else {
+      dispatch(createProduct(form.getFieldsValue()))
+    }
+    if (productError) {
+      toast.error('Something went wrong')
+    } else {
+      navigate('/confirm')
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    if (product) {
+      form.setFieldsValue({
+        title: product.title,
+        price: product.price + '',
+        description: product.description,
+        category: product.category
+      })
+    }
+  }, [product, form])
 
   return (
     <Form form={form} layout="vertical">
@@ -45,7 +78,7 @@ const ProductForm = () => {
           onClick={handleSubmit}
           disabled={loading}
         >
-          Create
+          {product ? 'Update' : 'Create'}
         </Button>
       </Form.Item>
     </Form>
